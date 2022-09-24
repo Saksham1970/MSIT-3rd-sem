@@ -1,31 +1,30 @@
 #include <stdio.h>
 #include <stdlib.h>
 
-struct Student{
+struct Student
+{
     int roll_no;
     char name[30];
     char class_sec[5];
-
 };
 
 struct Node
 {
     struct Student student;
-    struct Node* next;
+    struct Node *next;
 };
 
 struct Node *createDummyLinkedList();
-struct Node* reverseLL(struct Node *);
+struct Node *reverseLoop(struct Node *);
+struct Node *reverseRecursion(struct Node *);
 void deleteNode(struct Node *, int);
 void insertNode(struct Node *, struct Node *, int);
 void printLL(struct Node *);
-
 
 int main()
 {
 
     struct Node *head = createDummyLinkedList();
-
 
     printf("Created Linked list: \n\n");
     printLL(head);
@@ -35,48 +34,66 @@ int main()
     node->student = student;
 
     insertNode(head, node, 2);
-
     printf("\nLinked list after insterting a student data at index 2: \n\n");
     printLL(head);
 
     deleteNode(head, 14461);
-
     printf("\nLinked list after deleting a student with roll number 14461: \n\n");
     printLL(head);
-    
-    head = reverseLL(head);
 
-    printf("\nreversed Linked list : \n\n");
+    head = reverseLoop(head);
+    printf("\nReversed Linked list through loop: \n\n");
+    printLL(head);
+
+    head = reverseRecursion(head);
+    printf("\nReversed Linked list through recursion: \n\n");
     printLL(head);
 
     return 0;
 }
 
-struct Node* reverseLL(struct Node* head){
-   
-    struct Node* currentnode = head;
+struct Node *reverseLoop(struct Node *head)
+{
+
+    if ((head == NULL) || (head->next == NULL))
+    {
+        return head;
+    }
+
+    struct Node *currentnode = head;
     struct Node *secondnode = head->next;
     struct Node *thirdnode = head->next->next;
     currentnode->next = NULL;
 
-    
-    while(thirdnode!= NULL)
+    while (secondnode != NULL)
     {
         thirdnode = secondnode->next;
         secondnode->next = currentnode;
         currentnode = secondnode;
         secondnode = thirdnode;
-        
-   }
+    }
     return currentnode;
 }
 
-void deleteNode(struct Node* head, int roll_no){
-    struct Node* currentnode = head;
+struct Node *reverseRecursion(struct Node *head)
+{
+    if ((head == NULL) || (head->next == NULL))
+        return head;
 
-    while(currentnode->next!=NULL)
+    struct Node *new_head = reverseRecursion(head->next);
+    head->next->next = head;
+    head->next = NULL;
+    return new_head;
+}
+
+void deleteNode(struct Node *head, int roll_no)
+{
+    struct Node *currentnode = head;
+
+    while (currentnode->next != NULL)
     {
-        if(currentnode->next->student.roll_no == roll_no){
+        if (currentnode->next->student.roll_no == roll_no)
+        {
             struct Node *secondnode = currentnode->next;
             currentnode->next = secondnode->next;
             free(secondnode);
@@ -85,13 +102,15 @@ void deleteNode(struct Node* head, int roll_no){
     }
 }
 
-void insertNode(struct Node* head, struct Node* node, int index){
-    struct Node* lastnode = NULL;
+void insertNode(struct Node *head, struct Node *node, int index)
+{
+    struct Node *lastnode = NULL;
     struct Node *nextnode = head;
 
     for (int i = 0; i < index; i++)
     {
-        if (nextnode == NULL){
+        if (nextnode == NULL)
+        {
             break;
         }
         lastnode = nextnode;
@@ -101,12 +120,12 @@ void insertNode(struct Node* head, struct Node* node, int index){
     node->next = nextnode;
 }
 
-struct Node *createDummyLinkedList(){
+struct Node *createDummyLinkedList()
+{
 
-   
-    struct Node* head = (struct Node *)malloc(sizeof(struct Node));
-    struct Node* second = (struct Node*)malloc(sizeof(struct Node));
-    struct Node* third = (struct Node*)malloc(sizeof(struct Node));
+    struct Node *head = (struct Node *)malloc(sizeof(struct Node));
+    struct Node *second = (struct Node *)malloc(sizeof(struct Node));
+    struct Node *third = (struct Node *)malloc(sizeof(struct Node));
 
     head->next = second;
     second->next = third;
@@ -120,15 +139,15 @@ struct Node *createDummyLinkedList(){
     second->student = student2;
     third->student = student3;
 
-    
     return head;
 }
 
-void printLL(struct Node* head){
+void printLL(struct Node *head)
+{
 
-    struct Node* currentnode = head;
+    struct Node *currentnode = head;
 
-    while(currentnode!=NULL)
+    while (currentnode != NULL)
     {
         printf("Roll No: %d Name: %s Class: %s \n", currentnode->student.roll_no, currentnode->student.name, currentnode->student.class_sec);
         currentnode = currentnode->next;
