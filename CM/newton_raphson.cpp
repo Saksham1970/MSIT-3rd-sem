@@ -18,7 +18,7 @@ float derivFunc(float x)
 // Function to find the root
 void newtonRaphson(float x, float error)
 {
-    float h, x_old;
+    float x_old;
     int itr = 1;
     do
     {
@@ -28,10 +28,10 @@ void newtonRaphson(float x, float error)
             cout << "The value of root cant be found at x = " << x;
             return;
         }
-        h = func(x) / derivFunc(x);
-
+    
         // x(i+1) = x(i) - f(x) / f'(x)
-        x = x - h;
+        x = x - func(x) / derivFunc(x);
+
 
         cout << "Iteration No.: " << itr << " Value of x: " << x << endl;
         itr++;
