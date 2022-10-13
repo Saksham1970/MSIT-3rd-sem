@@ -13,8 +13,8 @@ protected:
     Node *tail = NULL;
 
 public:
-    virtual void store(int n);
-    virtual int retrive();
+    virtual void store(int n) = 0;
+    virtual int retrive() = 0;
 };
 
 class Stack : public List
@@ -70,7 +70,8 @@ public:
     friend std::ostream &operator<<(std::ostream &output, const Stack &stack)
     {
         Node *ptr = stack.head;
-        while (ptr!=NULL){
+        while (ptr != NULL)
+        {
             output << ptr->data << std::endl;
             ptr = ptr->next;
         }
@@ -122,7 +123,8 @@ public:
     friend std::ostream &operator<<(std::ostream &output, const Queue &queue)
     {
         Node *ptr = queue.head;
-        while (ptr!=NULL){
+        while (ptr != NULL)
+        {
             output << ptr->data << std::endl;
             ptr = ptr->next;
         }
@@ -142,17 +144,18 @@ int main()
     std::cout << S;
     std::cout << "Retriving once: " << S.retrive() << std::endl;
     std::cout << "Retriving twice: " << S.retrive() << std::endl;
-    std::cout << "Retriving thrice: " << S.retrive() << std::endl;
+    std::cout << "Retriving thrice: " << S.retrive() << std::endl
+              << std::endl;
 
     std::cout << "Queue: " << std::endl;
     std::cout << Q;
-    S.store(30);
-    S.store(40);
+    Q.store(30);
+    Q.store(40);
     std::cout << "After Storing twice Queue: " << std::endl;
     std::cout << Q;
     std::cout << "Retriving once: " << Q.retrive() << std::endl;
     std::cout << "Retriving twice: " << Q.retrive() << std::endl;
     std::cout << "Retriving thrice: " << Q.retrive() << std::endl;
-    
+
     return 0;
 }

@@ -63,8 +63,16 @@ public:
         {
             value[i] = other._value[i];
         }
+
         free(this->_value);
         this->_value = value;
+    }
+
+    // Copy constructor
+    String(const String &other)
+    {
+        this->_value = NULL;
+        this->operator=(other);
     }
 
     // <= Operator overloading for comparison
@@ -126,8 +134,7 @@ int main()
     String s3 = s1 + s2;
 
     // Using of copy
-    String s4;
-    s4 = s1;
+    String s4 = s1;
 
     std::cout << "String 1 = " << s1 << ", String 2 = " << s2 << std::endl;
     std::cout << "Concatenation of String 1 and 2 (String 3) = " << s3 << std::endl;
