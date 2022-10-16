@@ -36,6 +36,13 @@ int main()
 
     // Creating a new node called "node"
     struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+    // Check overflow
+    if (node == NULL)
+    {
+        printf("OVERFLOW\n");
+        return 1;
+    }
+
     struct Student student = {14463, "Ritesh Singh", "11-B"};
     node->student = student;
 
@@ -111,7 +118,7 @@ struct Node *deleteNode(struct Node *head, int roll_no)
 
     struct Node *currentnode = head;
 
-    // checks for if the list is empty
+    // checks for if the list is empty (UNDERFLOW)
     if (currentnode == NULL)
         return currentnode;
 
@@ -184,6 +191,13 @@ struct Node *createDummyLinkedList()
     struct Node *head = (struct Node *)malloc(sizeof(struct Node));
     struct Node *second = (struct Node *)malloc(sizeof(struct Node));
     struct Node *third = (struct Node *)malloc(sizeof(struct Node));
+
+    // Check Overflow
+    if (head == NULL || second == NULL || third == NULL)
+    {
+        printf("OVERFLOW\n");
+        return NULL;
+    }
 
     // linking the list
     head->next = second;

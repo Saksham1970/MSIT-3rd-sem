@@ -13,7 +13,6 @@ struct Node
     struct Employee employee;
     struct Node *next;
     struct Node *prev;
-
 };
 
 struct Node *createDummyLinkedList();
@@ -30,6 +29,12 @@ int main()
     printLL(head);
 
     struct Node *node = (struct Node *)malloc(sizeof(struct Node));
+    // Check Overflow
+    if (node == NULL)
+    {
+        printf("OVERFLOW\n");
+        return 1;
+    }
     struct Employee employee = {14463, "Ritesh Singh", "IT"};
     node->employee = employee;
 
@@ -41,10 +46,7 @@ int main()
     deleteLastNode(head);
     printf("\nLinked list after deleting a employee at the end: \n\n");
     printLL(head);
-
-
 }
-
 
 struct Node *createDummyLinkedList()
 {
@@ -52,6 +54,13 @@ struct Node *createDummyLinkedList()
     struct Node *head = (struct Node *)malloc(sizeof(struct Node));
     struct Node *second = (struct Node *)malloc(sizeof(struct Node));
     struct Node *third = (struct Node *)malloc(sizeof(struct Node));
+
+    // Check for overflow
+    if (head == NULL || second == NULL || third == NULL)
+    {
+        printf("OVERFLOW\n");
+        return NULL;
+    }
 
     head->next = second;
     head->prev = NULL;
@@ -75,14 +84,18 @@ struct Node *createDummyLinkedList()
 
 void deleteLastNode(struct Node *head)
 {
+
     struct Node *currentnode = head;
+
+    // checks for if the list is empty (UNDERFLOW)
+    if (currentnode == NULL)
+        return currentnode;
 
     while (currentnode->next != NULL)
         currentnode = currentnode->next;
-    
+
     currentnode->prev->next = NULL;
     free(currentnode);
-    
 }
 
 void insertStartNode(struct Node *head, struct Node *node)
@@ -90,7 +103,6 @@ void insertStartNode(struct Node *head, struct Node *node)
     node->prev = NULL;
     node->next = head;
     head->prev = node;
-
 }
 
 void printLL(struct Node *head)
