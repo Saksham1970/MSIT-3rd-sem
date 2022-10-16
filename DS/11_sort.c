@@ -181,8 +181,8 @@ int* merge_sort(int array[], int size){
         final_list_index++;
     }
 
-    // free(sorted_first_half);
-    // free(sorted_second_half);
+    free(sorted_first_half);
+    free(sorted_second_half);
 
     return returner_array;
 }
