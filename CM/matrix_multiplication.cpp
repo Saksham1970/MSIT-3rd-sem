@@ -37,7 +37,7 @@ int *AxB(int *A, int *B, int ARows, int ACols, int BCols)
 {
 
     // Creating a 2D array with size ARows X BCols
-    int(*C)[ARows] = (int(*)[ARows]) new int[ARows * BCols];
+    int(*C)[BCols] = (int(*)[BCols]) new int[ARows * BCols];
 
     // Matrix multiplication logic
     for (int i = 0; i < ARows; i++)
@@ -77,7 +77,7 @@ void print2Dmatrix(int *A1D, int rows, int columns)
 {
 
     // Converting 1D array into 2D array using type casting
-    int(*A)[rows] = (int(*)[rows])A1D;
+    int(*A)[columns] = (int(*)[columns])A1D;
 
     std::cout << "\nMatrix C = AxB:\n";
 
