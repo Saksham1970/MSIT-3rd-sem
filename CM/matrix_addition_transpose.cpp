@@ -18,7 +18,7 @@ int main()
     std::cout << "\nInput data for Matrix B:" << std::endl;
     int *B1D = input2D_matrix1D(&BRows, &BCols);
 
-    // Checking if the matrices are valid for being multiplied
+    // Checking if the matrices are valid for addition
     if ((ACols != BCols) || (ARows != BRows))
     {
         std::cout << "Inputted matrix cant be Added.";
@@ -56,7 +56,6 @@ int *AplusB(int *A, int *B, int Rows, int Cols)
         for (int j = 0; j < Cols; j++)
         {
             C[i][j] = *(A + Cols * i + j) + *(B + Cols * i + j);
-            std::cout << &C[i][j] << std::endl;
         }
 
     return (int *)C;
@@ -71,9 +70,8 @@ int *transpose(int *A, int Rows, int Cols)
     // Matrix transpose logic
     for (int i = 0; i < Rows; i++)
         for (int j = 0; j < Cols; j++)
-        {
             C[j][i] = *(A + Cols * i + j);
-        }
+
     return (int *)C;
 }
 
