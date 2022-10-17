@@ -3,7 +3,8 @@
 
 // Prototyping the functions
 int *input2D_matrix1D(int *, int *);
-int *AxB(int *, int *, int, int, int);
+int *AplusB(int *, int *, int, int);
+int *transpose(int *, int, int);
 void print2Dmatrix(int *, int, int);
 
 int main()
@@ -18,34 +19,60 @@ int main()
     int *B1D = input2D_matrix1D(&BRows, &BCols);
 
     // Checking if the matrices are valid for being multiplied
-    if (ACols != BRows)
+    if ((ACols != BCols) || (ARows != BRows))
     {
-        std::cout << "Inputted matrix cant be multiplied.";
+        std::cout << "Inputted matrix cant be Added.";
         return 0;
     }
 
-    // Multiplication using function
-    int *C1D = AxB(A1D, B1D, ARows, ACols, BCols);
+    // Addition using function
+    int *C1D = AplusB(A1D, B1D, ARows, ACols);
+
+    // Transpose using function
+    int *At1D = transpose(A1D, ARows, ACols);
+    int *Bt1D = transpose(B1D, BRows, BCols);
 
     // Printing using function
-    print2Dmatrix(C1D, ARows, BCols);
+    std::cout << "\nMatrix C = A + B:\n";
+    print2Dmatrix(C1D, ARows, ACols);
+
+    std::cout << "\nTranspose A:\n";
+    print2Dmatrix(At1D, ACols, ARows);
+
+    std::cout << "\nTranspose B:\n";
+    print2Dmatrix(Bt1D, BCols, BRows);
 
     return 0;
 }
 
-int *AxB(int *A, int *B, int ARows, int ACols, int BCols)
+int *AplusB(int *A, int *B, int Rows, int Cols)
 {
 
-    // Creating a 2D array with size ARows X BCols
-    int(*C)[BCols] = (int(*)[BCols]) new int[ARows * BCols];
+    // Creating a 2D array with size Rows X Cols
+    int(*C)[Cols] = (int(*)[Cols]) new int[Rows * Cols];
 
-    // Matrix multiplication logic
-    for (int i = 0; i < ARows; i++)
-        for (int j = 0; j < BCols; j++)
+    // Matrix addition logic
+    for (int i = 0; i < Rows; i++)
+        for (int j = 0; j < Cols; j++)
         {
-            C[i][j] = 0;
-            for (int k = 0; k < ACols; k++)
-                C[i][j] += *(A + ACols * i + k) * *(B + ACols * k + j);
+            C[i][j] = *(A + Cols * i + j) + *(B + Cols * i + j);
+            std::cout << &C[i][j] << std::endl;
+        }
+
+    return (int *)C;
+}
+
+int *transpose(int *A, int Rows, int Cols)
+{
+
+    // Creating a 2D array with size Rows X Cols
+    int(*C)[Rows] = (int(*)[Rows]) new int[Rows * Cols];
+
+    // Matrix transpose logic
+    for (int i = 0; i < Rows; i++)
+        for (int j = 0; j < Cols; j++)
+        {
+            C[j][i] = *(A + Cols * i + j);
         }
     return (int *)C;
 }
@@ -78,8 +105,6 @@ void print2Dmatrix(int *A1D, int rows, int columns)
 
     // Converting 1D array into 2D array using type casting
     int(*A)[columns] = (int(*)[columns])A1D;
-
-    std::cout << "\nMatrix C = AxB:\n";
 
     for (int i = 0; i < rows; i++)
     {
