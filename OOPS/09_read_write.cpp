@@ -1,6 +1,7 @@
-#include <iostream>
+#include <iostream> // Header Files
 #include <fstream>
 
+// Class Student
 class Student
 {
 private:
@@ -44,14 +45,11 @@ int main()
 {
     // Creating an output stream
     std::ofstream OutputFile;
+    OutputFile.open("09_object.txt");
 
-    // Calling the open function to write an object to a file
-    OutputFile.open("9_object.txt");
-
-    // Creating an object of A class
     Student student;
 
-    // Calling the putdata() function
+    // Putting data into object
     student.putdata();
 
     // Calling the write() function to write an object to a file.
@@ -64,22 +62,17 @@ int main()
 
     // Creating an input stream
     std::ifstream InputFile;
+    InputFile.open("09_object.txt");
 
-    // Calling the open function to read an object from a file
-    InputFile.open("9_object.txt");
-
-    // Creating an empty object of A class
+    // Creating an empty object of Student class
     Student empty_student;
 
     std::cout << "\nReading the object from a file : \n";
 
     // Calling the read() function to read an object from a file and transfer its content to an empty object
-    InputFile.read((char *)&empty_student, sizeof(empty_student));
+    InputFile.read((char *)&empty_student, sizeof(student));
 
-    // Calling the getdata() function
     empty_student.getdata();
-
-    // Closing the input stream
     InputFile.close();
 
     return 0;

@@ -1,8 +1,7 @@
 #include <iostream> // Header Files
 
-// Template declaration
+// Template class declaration
 template <class number>
-
 class Number
 {
 
@@ -66,13 +65,16 @@ public:
         delete this->_value;
     }
 
+    // Function to read _value
     number value() { return *(this->_value); }
 
+    // Overloading the + operator for addtion used for showing move constructor
     Number operator+(const Number &other)
     {
         return Number(*(this->_value) + *(other._value));
     }
 
+    // Overloading the > operator for finding greater of 2 Number classes
     bool operator>(const Number &other)
     {
         return *(this->_value) > *(other._value);
@@ -89,6 +91,7 @@ public:
 // Driver Code
 int main()
 {
+    // Getting the initial 2 values to perform operations on
     float f1, f2;
     std::cout << "Enter the number 1: ";
     std::cin >> f1;
@@ -99,12 +102,13 @@ int main()
     std::cout << "Demonstration of various special member functions of class: \n";
     std::cout << std::endl;
 
+    // Using floats to create the objects of Number
     std::cout << "Objects A and B (basic constructors): \n";
     Number<float> a(f1); // Constructor
     Number<float> b(f2); // Constructor
     std::cout << std::endl;
 
-    std::cout << "Object C (Defualt constructors): \n";
+    std::cout << "Object C (Defualt constructor): \n";
     Number<float> c; // Default Constructor
     std::cout << std::endl;
 
@@ -128,7 +132,10 @@ int main()
     c = f; // Copy Assignment Operator
     std::cout << std::endl;
 
+    // Checking if A>B
     std::cout << "Checking which from A and B is bigger: \n"; // Overloaded > Operator
     std::cout << (a > b ? a.value() : b.value()) << " is bigger\n";
     std::cout << std::endl;
+
+    return 0;
 }
