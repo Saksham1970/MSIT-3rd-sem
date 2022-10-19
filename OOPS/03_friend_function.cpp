@@ -24,12 +24,44 @@ public:
         return output;
     }
 
+
     // friend function for printing greater balance
-    friend void greater_balance(const BankAccount &, const BankAccount &);
+    template<class T, class Q>
+    friend void greater_balance(const T &, const Q &);
 };
 
+class CryptoWallet
+{
+    // The class for Crypto Wallet
+
+private:
+    std::string name;
+    float balance;
+
+public:
+    // Constructor
+    CryptoWallet(std::string name, float balance)
+    {
+        this->name = name;
+        this->balance = balance;
+    }
+
+    // ostream operator overloading for printing
+    friend std::ostream &operator<<(std::ostream &output, const CryptoWallet &acc)
+    {
+        output << "Name: " << acc.name << ", Balance: " << acc.balance;
+        return output;
+    }
+
+    // friend function for printing greater balance
+    template<class T, class Q>
+    friend void greater_balance(const T &, const Q &);
+};
+
+
 // Friend function definiton
-void greater_balance(const BankAccount &acc1, const BankAccount &acc2)
+template<class T, class Q>
+void greater_balance(const T &acc1, const Q &acc2)
 {
     std::cout << (acc1.balance > acc2.balance ? acc1.name : acc2.name) << " has more balance";
 }

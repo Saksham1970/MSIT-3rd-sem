@@ -17,6 +17,8 @@ struct Node
 
 // Prototyping the functions
 struct Node *createDummyLinkedList();
+struct Node *deleteLastNode(struct Node *);
+struct Node *insertStartNode(struct Node *, struct Node *);
 void printLL(struct Node *);
 
 int main()
@@ -42,26 +44,31 @@ int main()
     struct College college = {14463, "IITD"};
     node->college = college;
 
-    insertStartNode(head, node);
-    head = node;
+    // Inserting a Node at the starting
+    head = insertStartNode(head, node);
     printf("\nLinked list after insterting a college data at starting: \n\n");
     printLL(head);
 
-    deleteLastNode(head);
+    // Deleting a Node at the ending
+    head = deleteLastNode(head);
     printf("\nLinked list after deleting a college at the end: \n\n");
     printLL(head);
 
     return 0;
 }
 
-void deleteLastNode(struct Node *head)
+struct Node *deleteLastNode(struct Node *head)
 {
+
+    // This function deletes the node at the ending
+
     struct Node *temp = head;
 
     // checks for if the list is empty (UNDERFLOW)
     if (temp == NULL)
-        return temp;
+        return head;
 
+    // Traverses to the second last of the list
     while (1)
     {
         if (temp->next->next == head)
@@ -72,12 +79,16 @@ void deleteLastNode(struct Node *head)
         }
         temp = temp->next;
     }
+    return head;
 }
 
-void insertStartNode(struct Node *head, struct Node *node)
+struct Node *insertStartNode(struct Node *head, struct Node *node)
 {
+    // This function inserts node at the starting of the list
     node->next = head;
     struct Node *temp = head;
+
+    // Traverses to the end of the list to change the last link
     while (1)
     {
         if (temp->next == head)
@@ -87,6 +98,7 @@ void insertStartNode(struct Node *head, struct Node *node)
         }
         temp = temp->next;
     }
+    return node;
 }
 
 struct Node *createDummyLinkedList()
@@ -137,5 +149,5 @@ void printLL(struct Node *head)
         printf("College ID: %d Name: %s \n", currentnode->college.college_id, currentnode->college.name);
         currentnode = currentnode->next;
 
-    } while (currentnode == head);
+    } while (currentnode != head);
 }

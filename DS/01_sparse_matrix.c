@@ -15,6 +15,7 @@ int *input2D_matrix1D(int *, int *);
 struct DataElement *shredder(int[], int, int, int *);
 void printCompactMatrix(struct DataElement *, int);
 
+// Driver code
 int main()
 {
     // Getting a user inputted 2D sparse array that is passed as 1D through the function

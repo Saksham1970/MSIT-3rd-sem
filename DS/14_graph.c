@@ -1,56 +1,15 @@
 #include <stdio.h>
 #include <stdlib.h>
 
+// For Stack
 struct Node
 {
-    struct graphVertex * data;
+    struct graphVertex * vertex;
     struct Node *next;
 };
 struct Node *bottom = NULL;
 struct Node *top = NULL;
 
-void insert(struct graphVertex * element)
-{
-
-    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
-    if (newNode == NULL)
-    {
-        printf("Overflow\n");
-        return;
-    }
-    newNode->data = element;
-    newNode->next = NULL;
-    if (bottom == NULL)
-        bottom = top = newNode;
-    else
-    {
-        top->next = newNode;
-        top = newNode;
-    }
-}
-
-struct graphVertex * delete ()
-{
-    if (bottom == NULL)
-    {
-        printf("Underflow\n");
-        return -1;
-    }
-    else
-    {
-        struct Node *temp = bottom;
-        int element = bottom->data; // to store data of top node
-        bottom = bottom->next;
-        if (bottom == NULL)
-            top == bottom;
-        free(temp); // deleting the node
-        return element;
-    }
-}
-
-struct Data{
-    int data;
-};
 
 struct graphArc{
 
@@ -61,12 +20,70 @@ struct graphArc{
 struct graphVertex{
 
     struct graphVertex *nextVertex;
-    struct Data* data;
+    int data;
     int processed;
     struct graphArc *firstArc;
 };
 
-struct graphVertex* addGraphArc(struct graphVertex* vertex,struct Data* a,struct Data* b){
+void depth_first_traversal(struct graphVertex *);
+void breadth_first_traversal(struct graphVertex *);
+struct graphVertex *dummyGraph();
+
+int main(){
+    char graph_representation[25] = "0 - 1\n| / | \\\n4 - 3 - 2";
+
+    struct graphVertex *vertex = dummyGraph();
+   
+    printf("Graph:\n%s",graph_representation);
+    printf("\nDFS traversal:\n");
+    depth_first_traversal(vertex);
+
+    // printf("\nBFS traversal:\n");
+    // breadth_first_traversal(vertex);
+
+    return 0;
+}
+
+void insert(struct graphVertex * vertex)
+{
+
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    if (newNode == NULL)
+    {
+        printf("Overflow\n");
+        return;
+    }
+    newNode->vertex = vertex;
+    newNode->next = NULL;
+    if (bottom == NULL)
+        bottom = top = newNode;
+    else
+    {
+        top->next = newNode;
+        top = newNode;
+    }
+}
+
+struct graphVertex * remove ()
+{
+    if (bottom == NULL)
+    {
+        printf("Underflow\n");
+        return NULL;
+    }
+    else
+    {
+        struct Node *temp = bottom;
+        struct graphVertex * element = bottom->vertex; // to store data of top node
+        bottom = bottom->next;
+        if (bottom == NULL)
+            top == bottom;
+        free(temp); // deleting the node
+        return element;
+    }
+}
+
+struct graphVertex* addGraphEdge(struct graphVertex* vertex,int a, int b){
 
     struct graphVertex *ptr = vertex;
     struct graphVertex *a_vertex = NULL, *b_vertex = NULL;
@@ -124,6 +141,8 @@ struct graphVertex* addGraphArc(struct graphVertex* vertex,struct Data* a,struct
             b_arc = aptr;
             break;
         }
+        if (aptr->nextArc == NULL)
+            break;
         aptr = aptr->nextArc;
     }
 
@@ -133,41 +152,39 @@ struct graphVertex* addGraphArc(struct graphVertex* vertex,struct Data* a,struct
             a_arc = bptr;
             break;
         }
+        if(bptr->nextArc == NULL)
+            break;
         bptr = bptr->nextArc;
     }
 
     if (a_arc == NULL)
     {
-        struct graphArc *a_arc_temp = (struct graphVertex *)malloc(sizeof(struct graphVertex));
+        struct graphArc *a_arc_temp = (struct graphArc *)malloc(sizeof(struct graphArc));
         a_arc_temp->nextArc = NULL;
         a_arc_temp->destination = a_vertex;
 
         a_arc = a_arc_temp;
         
-        if (bptr == NULL){
-            bptr = a_arc_temp;
-        }
-        else{
+        if (bptr == NULL)
+            b_vertex->firstArc = a_arc_temp;
+        else
             bptr->nextArc = a_arc_temp;
-            bptr = bptr->nextArc;
-        }
+        
     }
 
     if (b_arc == NULL)
     {
-        struct graphArc *b_arc_temp = (struct graphVertex *)malloc(sizeof(struct graphVertex));
+        struct graphArc *b_arc_temp = (struct graphArc *)malloc(sizeof(struct graphArc));
         b_arc_temp->nextArc = NULL;
         b_arc_temp->destination = b_vertex;
 
         b_arc = b_arc_temp;
         
-        if (aptr == NULL){
-            aptr = b_arc_temp;
-        }
-        else{
+        if (aptr == NULL)
+            a_vertex->firstArc = b_arc_temp;
+        else
             aptr->nextArc = b_arc_temp;
             aptr = aptr->nextArc;
-        }
     }
 
     if (vertex == NULL)
@@ -176,6 +193,19 @@ struct graphVertex* addGraphArc(struct graphVertex* vertex,struct Data* a,struct
         return vertex;
 }
 
+struct graphVertex *dummyGraph(){
+    
+    struct graphVertex* vertex = addGraphEdge(NULL, 0, 1);
+    
+    addGraphEdge(vertex, 0, 4);
+    addGraphEdge(vertex, 1, 3);
+    addGraphEdge(vertex, 1, 4);
+    addGraphEdge(vertex, 4, 3);
+    addGraphEdge(vertex, 3, 2);
+    addGraphEdge(vertex, 1, 2);
+
+    return vertex;
+}
 
 void depth_first_recursion(struct graphVertex* vertex){
 
@@ -183,12 +213,14 @@ void depth_first_recursion(struct graphVertex* vertex){
     if(vertex->processed == 1){
         return;
     }
-
-    printf("%d", vertex->data->data);
+   
+    printf("%d, ", vertex->data);
     vertex->processed = 1;
     struct graphArc *ptr = vertex->firstArc;
+    printf("%d", vertex->firstArc);
     while (ptr != NULL)
     {
+        printf("Hello?");
         depth_first_recursion(ptr->destination);
         ptr = ptr->nextArc;
     }
@@ -204,6 +236,7 @@ void depth_first_traversal(struct graphVertex* vertex){
         ptr->processed = 0;
         ptr = ptr->nextVertex;
     }
+
     depth_first_recursion(vertex);
 }
 
@@ -224,7 +257,7 @@ void breadth_first_traversal(struct graphVertex* vertex){
             struct Node* ptr2 = top;
             int in_queue = 0;
             while (ptr2 != NULL){
-                if(ptr2->data == ptr)
+                if(ptr2->vertex == ptr)
                     in_queue = 1;
                 ptr2 = ptr2->next;
             }
@@ -232,7 +265,7 @@ void breadth_first_traversal(struct graphVertex* vertex){
                 insert(ptr);
             
             while(bottom!=NULL){
-                ptr = delete ();
+                ptr = remove ();
                 ptr->processed = 1;
 
                 struct graphArc *aptr = ptr->firstArc;
@@ -241,7 +274,7 @@ void breadth_first_traversal(struct graphVertex* vertex){
                     ptr2 = top;
                     in_queue = 0;
                     while (ptr2 != NULL){
-                        if(ptr2->data == aptr->destination)
+                        if(ptr2->vertex == aptr->destination)
                             in_queue = 1;
                         ptr2 = ptr2->next;
                     }
@@ -257,6 +290,4 @@ void breadth_first_traversal(struct graphVertex* vertex){
     }
 }
 
-// 0 - 1
-// | / | \
-// 4 - 3 - 2
+

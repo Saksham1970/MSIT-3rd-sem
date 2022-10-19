@@ -121,11 +121,15 @@ void bubble_sort(int list[], int size, int **index_list)
 
 int *input_list(int *size)
 {
+    // This function inputs the list from user
     int *array;
     printf("Input the number of elements in the list: ");
     scanf("%d", size);
 
+    // Allocating the memory to the array
     array = (int *)malloc(*size * sizeof(int));
+
+    // Putting the elements into the array
     for (int i = 0; i < *size; i++)
     {
         printf("Input element no %d of the list: ", i + 1);
