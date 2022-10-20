@@ -14,7 +14,7 @@ struct Node *top = NULL;
 
 // Prototyping the functions
 void insert(int);
-int pop();
+int delete();
 void display();
 
 // Driver code
@@ -33,15 +33,15 @@ int main()
 
     // Deleting 1 element from queue and printing
     printf("\nDeleting element from Queue: ");
-    printf("%d \n", pop());
+    printf("%d \n", delete());
     printf("\nQueue after Deleting:\n");
     display();
 
     // Deleting all the elements from queue and printing
     printf("Deleting element from Queue: ");
-    printf("%d \n", pop());
+    printf("%d \n", delete());
     printf("Deleting element from Queue: ");
-    printf("%d \n", pop());
+    printf("%d \n", delete());
     printf("\nQueue after Deleting:\n");
     display();
 
@@ -74,10 +74,12 @@ void insert(int element)
     }
 }
 
-int pop()
+int delete()
 {
     // Function to delete and return element from queue
     // Checks if elements present
+    // Returns -1 if underflow
+    
     if (bottom == NULL)
     {
         printf("Underflow\n");
@@ -89,7 +91,7 @@ int pop()
         int element = bottom->data; // to store data of top node
         bottom = bottom->next;
         if (bottom == NULL)
-            top == bottom;
+            top = bottom;
         free(temp); // deleting the node
         return element;
     }

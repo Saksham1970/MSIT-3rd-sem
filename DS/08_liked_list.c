@@ -20,7 +20,7 @@ struct Student
 // Prototyping the functions
 struct Student **createDummyList(int, int *);
 void reverse(struct Student **, int);
-void remove(struct Student **, int, int *);
+void delete(struct Student **, int, int *);
 void insert(struct Student **, struct Student *, int, int, int *);
 void printList(struct Student **, int, int);
 
@@ -56,7 +56,7 @@ int main()
     printList(list, size, no_of_elements);
 
     // Deleting the node with roll number as 14461 and printing the new list
-    remove(list, 14461, &no_of_elements);
+    delete(list, 14461, &no_of_elements);
     printf("\nList after deleting a student with roll number 14461: \n\n");
     printList(list, size, no_of_elements);
 
@@ -96,7 +96,7 @@ void insert(struct Student **list, struct Student *student, int index, int size,
     list[index] = student;
 }
 
-void remove(struct Student **list, int roll_no, int *n)
+void delete(struct Student **list, int roll_no, int *n)
 {
     // Removing element from array
 

@@ -24,7 +24,7 @@ struct Node *newNode(struct Automobile);
 void insert(struct Node **, struct Node *);
 
 struct Node *largest(struct Node *);
-int remove(struct Node **, int);
+int delete(struct Node **, int);
 
 void Inorder(struct Node *);
 void Preorder(struct Node *);
@@ -45,7 +45,7 @@ int main()
     Preorder(root);
 
     // Removing the car with year of make as 1994
-    remove(&root, 1994);
+    delete(&root, 1994);
     printf("\nBST After Removing a Car with year of make as 1994:\n");
     Preorder(root);
 
@@ -132,7 +132,7 @@ struct Node *largest(struct Node *root)
     return largest_node;
 }
 
-int remove(struct Node **root, int year_of_make)
+int delete(struct Node **root, int year_of_make)
 {
     // Function to delete a node from the BST
     // Deleting on the basis of year of make
@@ -145,11 +145,11 @@ int remove(struct Node **root, int year_of_make)
 
     // If year of make of node greater than the root's year of make
     if (year_of_make > (*root)->automobile.year_of_make)
-        return remove(&((*root)->right), year_of_make); // deletion in the right subtree
+        return delete(&((*root)->right), year_of_make); // deletion in the right subtree
 
     // If year of make of node leseer than the root's year of make
     else if (year_of_make < (*root)->automobile.year_of_make)
-        return remove(&((*root)->left), year_of_make); // deletion in the left subtree
+        return delete(&((*root)->left), year_of_make); // deletion in the left subtree
 
     else                           // If year of make of node is equal to the root's year of make
     {                              // root is the node to be deleted
@@ -175,7 +175,7 @@ int remove(struct Node **root, int year_of_make)
             struct Node *largest_left = largest((*root)->left);
             (*root)->automobile = largest_left->automobile;
             // Deleting the largest node in the left subtree
-            return remove(&((*root)->left), largest_left->automobile.year_of_make);
+            return delete(&((*root)->left), largest_left->automobile.year_of_make);
         }
     }
 }

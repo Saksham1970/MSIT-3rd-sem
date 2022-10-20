@@ -81,6 +81,8 @@ int pop()
 {   
     // Function to pop and return element from stack
     // Checks if elements present
+    // Returns -1 if underflow
+    
     if (top == NULL)
     {
         printf("Underflow\n");

@@ -85,6 +85,8 @@ int pop1()
 {
     // Function to pop and return element from stack 1
     // Checks if elements present
+    // returns -1 if Underflow
+    
     if (top1 > -1)
     {
         int element = array[top1];
@@ -102,6 +104,8 @@ int pop2()
 {
     // Function to pop and return element from stack 2
     // Checks if elements present
+    // returns -1 if Underflow
+
     if (bottom2 < size)
     {
         int element = array[bottom2];
