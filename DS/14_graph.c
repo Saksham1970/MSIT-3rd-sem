@@ -7,8 +7,8 @@ struct Node
     struct graphVertex *vertex;
     struct Node *next;
 };
-struct Node *bottom = NULL;
-struct Node *top = NULL;
+struct Node *front = NULL;
+struct Node *rear = NULL;
 
 // Struct to store the other end of the vertex's edge
 struct graphArc
@@ -55,10 +55,10 @@ int main()
     return 0;
 }
 
-// Insert element into queue
-void insert_queue(struct graphVertex *vertex)
+// enqueue element into queue
+void enqueue(struct graphVertex *vertex)
 {
-    // Function to insert an element into the queue
+    // Function to enqueue an element into the queue
     // Allocating memory to the new node in the queue
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
 
@@ -73,34 +73,34 @@ void insert_queue(struct graphVertex *vertex)
     newNode->vertex = vertex;
     newNode->next = NULL;
 
-    // replacing the top
-    if (bottom == NULL)
-        bottom = top = newNode;
+    // replacing the rear
+    if (front == NULL)
+        front = rear = newNode;
     else
     {
-        top->next = newNode;
-        top = newNode;
+        rear->next = newNode;
+        rear = newNode;
     }
 }
 
-struct graphVertex *remove_queue()
+struct graphVertex *dequeue()
 {
-    // Function to delete and return element from queue
+    // Function to dequeue and return element from queue
     // Checks if elements present
     // Returns NULL if underflow
 
-    if (bottom == NULL)
+    if (front == NULL)
     {
         printf("Underflow\n");
         return NULL;
     }
     else
     {
-        struct Node *temp = bottom;
-        struct graphVertex *element = bottom->vertex; // to store data of top node
-        bottom = bottom->next;
-        if (bottom == NULL)
-            top = bottom;
+        struct Node *temp = front;
+        struct graphVertex *element = front->vertex; // to store data of rear node
+        front = front->next;
+        if (front == NULL)
+            rear = front;
         free(temp); // deleting the node
         return element;
     }
@@ -380,15 +380,15 @@ void breadth_first_traversal(struct graphVertex *vertex)
         // If vertex not processed
         if (ptr->processed == 0)
         {
-            // Insert the vertex into queue for processing
-            insert_queue(ptr);
+            // enqueue the vertex into queue for processing
+            enqueue(ptr);
             ptr->processed = 1;
 
             // Loop for Deleting from queue and processing the vertex
-            while (bottom != NULL)
+            while (front != NULL)
             {
                 // Deleting from queue and processing the vertex
-                struct graphVertex *print = remove_queue();
+                struct graphVertex *print = dequeue();
                 printf("%d, ", print->data);
 
                 // Loop through the edges of the vertex
@@ -398,8 +398,8 @@ void breadth_first_traversal(struct graphVertex *vertex)
                     // If vertex not processed
                     if (aptr->destination->processed == 0)
                     {
-                        // Insert the vertex into queue for processing
-                        insert_queue(aptr->destination);
+                        // enqueue the vertex into queue for processing
+                        enqueue(aptr->destination);
                         aptr->destination->processed = 1;
                     }
                     aptr = aptr->nextArc;

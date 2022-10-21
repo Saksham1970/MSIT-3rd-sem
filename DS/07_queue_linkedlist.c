@@ -8,13 +8,13 @@ struct Node
     struct Node *next;
 };
 
-// Top and Bottom of the queue, entry from top and exit from bottom
-struct Node *bottom = NULL;
-struct Node *top = NULL;
+// rear and front of the queue, entry from rear and exit from front
+struct Node *front = NULL;
+struct Node *rear = NULL;
 
 // Prototyping the functions
-void insert(int);
-int delete();
+void enqueue(int);
+int dequeue();
 void display();
 
 // Driver code
@@ -25,32 +25,32 @@ int main()
     printf("\nQueue at the start:\n");
     display();
 
-    // Inserting 2 elements into queue and printing
-    insert(1);
-    insert(2);
-    printf("\nQueue after inserting 2 elements:\n");
+    // enqueuing 2 elements into queue and printing
+    enqueue(1);
+    enqueue(2);
+    printf("\nQueue after enqueuing 2 elements:\n");
     display();
 
-    // Deleting 1 element from queue and printing
-    printf("\nDeleting element from Queue: ");
-    printf("%d \n", delete());
-    printf("\nQueue after Deleting:\n");
+    // dequeuing 1 element from queue and printing
+    printf("\ndequeuing element from Queue: ");
+    printf("%d \n", dequeue());
+    printf("\nQueue after dequeuing:\n");
     display();
 
-    // Deleting all the elements from queue and printing
-    printf("Deleting element from Queue: ");
-    printf("%d \n", delete());
-    printf("Deleting element from Queue: ");
-    printf("%d \n", delete());
-    printf("\nQueue after Deleting:\n");
+    // dequeuing all the elements from queue and printing
+    printf("dequeuing element from Queue: ");
+    printf("%d \n", dequeue());
+    printf("dequeuing element from Queue: ");
+    printf("%d \n", dequeue());
+    printf("\nQueue after dequeuing:\n");
     display();
 
     return 0;
 }
 
-void insert(int element)
+void enqueue(int element)
 {
-    // Function to insert element into queue
+    // Function to enqueue element into queue
 
     // Create new node
     struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
@@ -64,34 +64,34 @@ void insert(int element)
     newNode->data = element;
     newNode->next = NULL;
 
-    // replacing the top
-    if (bottom == NULL)
-        bottom = top = newNode;
+    // replacing the rear
+    if (front == NULL)
+        front = rear = newNode;
     else
     {
-        top->next = newNode;
-        top = newNode;
+        rear->next = newNode;
+        rear = newNode;
     }
 }
 
-int delete()
+int dequeue()
 {
-    // Function to delete and return element from queue
+    // Function to dequeue and return element from queue
     // Checks if elements present
     // Returns -1 if underflow
     
-    if (bottom == NULL)
+    if (front == NULL)
     {
         printf("Underflow\n");
         return -1;
     }
     else
     {
-        struct Node *temp = bottom;
-        int element = bottom->data; // to store data of top node
-        bottom = bottom->next;
-        if (bottom == NULL)
-            top = bottom;
+        struct Node *temp = front;
+        int element = front->data; // to store data of rear node
+        front = front->next;
+        if (front == NULL)
+            rear = front;
         free(temp); // deleting the node
         return element;
     }
@@ -100,7 +100,7 @@ int delete()
 void display()
 {
     // Printing the list by traversing
-    struct Node *currentnode = bottom;
+    struct Node *currentnode = front;
     while (currentnode != NULL)
     {
         printf("%d ,", currentnode->data);

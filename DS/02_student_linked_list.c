@@ -76,9 +76,7 @@ struct Node *reverseLoop(struct Node *head)
 
     // Checks the list for empty or 1 element
     if ((head == NULL) || (head->next == NULL))
-    {
         return head;
-    }
 
     struct Node *currentnode = head;
     struct Node *secondnode = head->next;
