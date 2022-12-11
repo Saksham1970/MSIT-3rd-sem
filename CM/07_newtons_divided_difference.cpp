@@ -1,11 +1,12 @@
-#include<iostream> // Header Files
-#include<algorithm>
+#include <iostream> // Header Files
+#include <algorithm>
 
 // Prototyping the functions
-float newton_divided_difference(float , float *, float *, int );
+float newton_divided_difference(float, float *, float *, int);
 
 // Driver Code
-int main(){
+int main()
+{
 
     // Getting the number of values to be stored
     int n;
@@ -13,8 +14,8 @@ int main(){
     std::cin >> n;
 
     // Creating new arrays with the size inputted
-    float* x_array = new float[n];
-    float* y_array = new float[n];
+    float *x_array = new float[n];
+    float *y_array = new float[n];
 
     // Filling the arrays
     for (int i = 0; i < n; i++)
@@ -34,7 +35,7 @@ int main(){
     std::cin >> x;
 
     // Outputing the value
-    std::cout << "Y for the value " << x << " is " << newton_divided_difference(x,x_array, y_array, n);
+    std::cout << "Y for the value " << x << " is " << newton_divided_difference(x, x_array, y_array, n);
 
     // Freeing the arrays
     delete x_array;
@@ -43,7 +44,8 @@ int main(){
     return 0;
 }
 
-float newton_divided_difference(float x, float* x_array, float* y_array, int n){
+float newton_divided_difference(float x, float *x_array, float *y_array, int n)
+{
 
     // Function used to find the value of y for a given x using the newton's divided difference formula
     // returns the value of y as a float
@@ -54,7 +56,7 @@ float newton_divided_difference(float x, float* x_array, float* y_array, int n){
     // y new is a copy of y array and is used to find divided differences
     float *y_new = new float[n];
     std::copy(y_array, y_array + n, y_new);
-    
+
     // for loop to find divided differences and store the top most value in y dels which is used in calculating actual value
     for (int i = 0; i < n; i++)
     {
