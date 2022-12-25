@@ -9,8 +9,8 @@ void print2Dmatrix(float *, int);
 int main()
 {
 
-    // Getting the two matrices A and B inputted
-    // A1D namins is used becuase its a 2D array A but in 1D form
+    // Getting the matrix inputted
+    // A1D naming is used becuase its a 2D array A but in 1D form
     int order;
     std::cout << "Input data for Matrix:" << std::endl;
     float *A1D = input2D_matrix1D(&order);
@@ -32,7 +32,7 @@ float *input2D_matrix1D(int *order)
 
     // Creates an array with length as if the 2D matrix was converted to 1D row wise
     // This is done since you cannot pass in function and return a variable length multidimensional array
-    float *matrix = new float[(*order) * (*order) * 2];
+    float *matrix = new float[(*order) * (*order) * 2]; // Creating augumented matrix
 
     for (int i = 0; i < *order; i++)
         for (int j = 0; j < *order; j++)
@@ -41,7 +41,7 @@ float *input2D_matrix1D(int *order)
             scanf("%f", matrix + i * (*order * 2) + j);
         }
 
-    // Adding the Identity matrix half
+    // Adding the Identity augumented matrix half
 
     for (int i = 0; i < *order; i++)
         for (int j = *order; j < *order * 2; j++)
@@ -56,10 +56,12 @@ float *input2D_matrix1D(int *order)
 }
 void gauss_jordan(float *A1D, int order)
 {
+    // This method is used for converting augumented matrix to inverse augumented matrix
 
     // Converting 1D array into 2D array using type casting
     float(*A)[order * 2] = (float(*)[order * 2]) A1D;
 
+    // Main loop to convert each diagonal of matrix to 1 and rest to 0
     for (int i = 0; i < order; i++)
     {
         float temp = A[i][i];
@@ -77,6 +79,7 @@ void gauss_jordan(float *A1D, int order)
 
 void print2Dmatrix(float *A1D, int order)
 {
+    //This function prints the second half of augumented matrix
 
     // Converting 1D array into 2D array using type casting
     float(*A)[2 * order] = (float(*)[2 * order]) A1D;
